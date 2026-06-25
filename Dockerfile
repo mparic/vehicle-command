@@ -1,5 +1,5 @@
 # Build stage — we control this so we know exactly where the binary goes
-FROM golang:1.22 AS build
+FROM golang:1.23 AS build
 WORKDIR /src
 COPY . .
 RUN go install ./cmd/tesla-http-proxy
