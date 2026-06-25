@@ -1,15 +1,10 @@
-FROM golang:1.23.0 AS build
-
-WORKDIR /app
-
-COPY go.mod go.sum ./
-RUN go mod download
-
+# Build stage — we control this so we know exactly where the binary goes
+FROM golang:1.22 AS build
+WORKDIR /src
 COPY . .
+RUN go install ./cmd/tesla-http-proxy
 
-RUN mkdir build
-RUN go build -o ./build ./...
-
+# Final stage
 FROM debian:bookworm-slim
 RUN apt-get update && apt-get install -y ca-certificates && rm -rf /var/lib/apt/lists/*
 WORKDIR /
